@@ -1,0 +1,14 @@
+example:
+  vars:
+    host_groups:
+      - Host Group 1
+      - Host_Group 2
+    link_templates:
+      - Template to link 1
+      - Template to link 2
+  children:
+    example_hosts:
+      hosts:
+        example-host-1.example.com:
+        example-host-2.example.com:
+        example-host-3.example.com:

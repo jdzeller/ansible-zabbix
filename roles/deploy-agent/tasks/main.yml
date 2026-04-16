@@ -1,0 +1,15 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for deploy-agent
+- name: Allow Zabbix Agent firewall ports
+  ansible.posix.firewalld:
+    service: zabbix-agent
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+  ignore_errors: true
+
+- name: Install Zabbix Agent
+  ansible.builtin.include_role:
+    name: community.zabbix.zabbix_agent

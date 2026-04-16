@@ -1,0 +1,14 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for deploy-agent
+# Zabbix module config
+zabbix_agent2: true
+zabbix_agent2_listenport: 10050
+zabbix_agent_tlspsk_auto: true
+zabbix_agent_server: < server FQDN or IP >
+zabbix_agent_serveractive: < server FQDN or IP >
+zabbix_agent_allowkeys: system.run[*]
+# next two options are optional, used if yum/dnf needs to use a proxy to download install packages
+zabbix_http_proxy: < proxy FQDN or IP > 
+zabbix_https_proxy: < proxy FQDN or IP > 
+zabbix_api_key: < zabbix API Key > # Ansible vault is recommended to obscure API key

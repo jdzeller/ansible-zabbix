@@ -1,0 +1,11 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for add-host
+# Zabbix module config
+zabbix_agent2: true
+zabbix_agent2_listenport: 10050
+zabbix_agent_tlspsk_auto: true
+zabbix_agent_server: < zabbix FQDN or IP >
+zabbix_agent_serveractive: < zabbix FQDN or IP >
+#zabbix_manage_repo: false
+zabbix_api_key: < zabbix API Key > # Ansible vault is recommended to obscure API key

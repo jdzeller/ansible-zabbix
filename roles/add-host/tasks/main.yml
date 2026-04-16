@@ -1,0 +1,47 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for add-host
+- name: Get PSK identity
+  ansible.builtin.slurp:
+    src: /etc/zabbix/tls_psk_auto.identity
+  register: psk_identity
+  become: true
+  ignore_errors: true
+
+- name: Get PSK secret
+  ansible.builtin.slurp:
+    src: /etc/zabbix/tls_psk_auto.secret
+  register: psk_secret
+  become: true
+  ignore_errors: true
+
+- name: Set API configuration
+  ansible.builtin.set_fact:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: ""
+    ansible_zabbix_auth_key: "{{ zabbix_api_key }}"
+    ansible_host: "{{ zabbix_agent_server }}"
+
+- name: Add host to Zabbix
+  community.zabbix.zabbix_host:
+    host_name: "{{ inventory_hostname }}"
+    visible_name: "{{ inventory_hostname }}"
+    host_groups: "{{ host_groups }}"
+    link_templates: "{{ link_templates }}"
+    status: enabled
+    state: present
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 0
+        dns: "{{ inventory_hostname }}"
+        port: 10050
+    tls_psk_identity: "{{ psk_identity['content'] | b64decode }}"
+    tls_psk: "{{ psk_secret['content'] | b64decode }}"
+    tls_accept: 2
+    tls_connect: 2
+  ignore_errors: true
